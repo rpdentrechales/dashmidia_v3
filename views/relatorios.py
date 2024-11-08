@@ -1,11 +1,31 @@
 import streamlit as st
 import pandas as pd
-import datetime
+from datetime import datetime, timedelta
 from auxiliar.auxiliar import *
 
 st.set_page_config(page_title="Pró-Corpo - Relatórios", page_icon="💎",layout="wide")
 
 st.markdown("# Pró-Corpo - Relatórios")
+
+today = datetime.datetime.now()
+three_days_ago = today - timedelta(days=3)
+
+data_seletor = st.date_input(
+    "Selecione a data",
+    (three_days_ago, today),
+    format="DD/MM/YYYY",
+)
+
+if len(data_seletor) == 2:
+  start_date = data_seletor[0].strftime('%Y-%m-%d')
+  end_date = data_seletor[1].strftime('%Y-%m-%d')
+else:
+  start_date = data_seletor[0].strftime('%Y-%m-%d')
+  end_date = start_date
+
+start_date = datetime.today().replace(day=1).strftime('%Y-%m-%d')
+end_date = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
+extended_end_date = (datetime.today() + timedelta(days=15)).strftime('%Y-%m-%d')
 
 # Fetch all data
 leads_data, appointments_data, bill_charges_data = run_fetch_all(start_date, end_date, extended_end_date, token)
