@@ -28,6 +28,8 @@ else:
 end_date_obj = datetime.datetime.strptime(end_date, '%Y-%m-%d')
 extended_end_date = (end_date_obj + timedelta(days=15)).strftime('%Y-%m-%d')
 
+st.write(extended_end_date)
+
 # Fetch all data
 leads_data, appointments_data, bill_charges_data = run_fetch_all(start_date, end_date, extended_end_date, token)
 
