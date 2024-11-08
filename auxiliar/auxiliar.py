@@ -309,6 +309,7 @@ async def fetch_all_data(start_date, end_date, extended_end_date, token):
 
 # Wrapper function to run async functions
 def run_fetch_all(start_date, end_date, extended_end_date, token):
+    st.write(f"run_fetch: {extended_end_date}")
     return asyncio.run(fetch_all_data(start_date, end_date, extended_end_date, token))
 
 def treat_leads(df_leads):
