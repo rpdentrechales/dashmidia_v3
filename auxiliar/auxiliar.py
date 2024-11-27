@@ -119,6 +119,7 @@ async def fetch_all_leads(session, start_date, end_date, token):
 
 # Fetch appointments with pagination + retry logic
 async def fetch_appointments(session, start_date, end_date, token):
+    st.write("Feching Appointments")
     current_page = 1
     all_appointments = []
 
@@ -163,7 +164,7 @@ async def fetch_appointments(session, start_date, end_date, token):
             'filters': {
                 'startDateRange': {
                     'start': start_date,
-                    'end': extended_end_date,
+                    'end': end_date,
                 },
             },
             'pagination': {
@@ -309,7 +310,6 @@ async def fetch_all_data(start_date, end_date, extended_end_date, token):
 
 # Wrapper function to run async functions
 def run_fetch_all(start_date, end_date, extended_end_date, token):
-    st.write(f"run_fetch: {extended_end_date}")
     return asyncio.run(fetch_all_data(start_date, end_date, extended_end_date, token))
 
 def treat_leads(df_leads):
