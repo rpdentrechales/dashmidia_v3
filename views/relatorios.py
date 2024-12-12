@@ -23,8 +23,9 @@ else:
   start_date = data_seletor[0].strftime('%Y-%m-%d')
   end_date = start_date
 
-botao_gerar_relatorio = st.button("Gerar Relatórios",key="botao_gerar_relatorio")
-st.write(st.session_state['botao_gerar_relatorio'])
+botao_gerar_relatorio = st.button("Gerar Relatórios")
+if 'botao_gerar_relatorio' not in st.session_state:
+  st.session_state['botao_gerar_relatorio'] = False
 
 if st.session_state['botao_gerar_relatorio']:
 
