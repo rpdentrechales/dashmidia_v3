@@ -61,7 +61,7 @@ if botao_gerar_relatorio or botao_sessao:
 
   groupby_data = funil_df.groupby(['Data']).agg({'Leads':'sum','Agendamentos':'sum','Atendimentos':'sum','Receita':'sum','Vendas':'sum'}).reset_index()
 
-  st.dataframe(groupby_data)
+  st.dataframe(groupby_data,hide_index = True,use_container_width=True)
 
   st.title("Visualizar Evolução por dia")
 
