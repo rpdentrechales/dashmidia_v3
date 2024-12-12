@@ -27,10 +27,10 @@ botao_gerar_relatorio = st.button("Gerar Relatórios")
 
 if 'botao_gerar_relatorio' not in st.session_state:
   st.session_state['botao_gerar_relatorio'] = False
-else:
-  percistir_botao = st.session_state['botao_gerar_relatorio']
+  
+botao_sessao = st.session_state['botao_gerar_relatorio']
 
-if botao_gerar_relatorio or percistir_botao:
+if botao_gerar_relatorio or botao_sessao:
 
   st.session_state['botao_gerar_relatorio'] = True
   
