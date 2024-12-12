@@ -23,9 +23,10 @@ else:
   start_date = data_seletor[0].strftime('%Y-%m-%d')
   end_date = start_date
 
+botao_gerar_relatorio = st.button("Gerar Relatórios",key="botao_gerar_relatorio")
 print(st.session_state['botao_gerar_relatorio'])
 
-if st.button("Gerar Relatórios",key="botao_gerar_relatorio"):
+if botao_gerar_relatorio:
 
   if 'funil_df' not in st.session_state:
 
