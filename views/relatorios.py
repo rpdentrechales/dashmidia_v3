@@ -75,7 +75,7 @@ if botao_gerar_relatorio or botao_sessao:
       value_name="Value"
   )
 
-  fig = px.line(
+  fig = px.bar(
     df_melted, 
     x="Data", 
     y="Value", 
