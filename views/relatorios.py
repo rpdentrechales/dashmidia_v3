@@ -37,10 +37,12 @@ if st.button("Gerar Relatórios"):
   st.title("Funil por Data")
 
   opcoes_unidades = funil_df['Unidade'].unique()
+  opcoes_unidades.insert(0,"Todas Unidades")
 
-  filtro_unidade = st.multiselect("Selecione a Unidade", opcoes_unidades,opcoes_unidades)
+  filtro_unidade = st.selectbox("Selecione a Unidade", opcoes_unidades,"Todas Unidades")
 
-  funil_df = funil_df.loc[funil_df['Unidade'] == filtro_unidade]
+  if filtro_unidade != "Todas Unidades":
+    funil_df = funil_df.loc[funil_df['Unidade'] == filtro_unidade]
 
   groupby_data = funil_df.groupby(['Data']).agg({'Leads':'sum','Agendamentos':'sum','Atendimentos':'sum','Receita':'sum','Vendas':'sum'}).reset_index()
 
