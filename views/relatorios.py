@@ -47,7 +47,7 @@ if botao_gerar_relatorio or botao_sessao:
 
   groupby_unidade = funil_df.groupby(['Unidade']).agg({'Leads':'sum','Agendamentos':'sum','Atendimentos':'sum','Receita':'sum','Vendas':'sum'}).reset_index()
 
-  st.dataframe(groupby_unidade)
+  st.dataframe(groupby_unidade,hide_index = True)
 
   st.title("Funil por Data")
 
