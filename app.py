@@ -3,7 +3,7 @@ import streamlit as st
 # --- PAGE SETUP ---
 relatorios_page = st.Page(
     "views/relatorios.py",
-    title="Sample Page 1",
+    title="Relatórios de Mídia",
     icon=":material/thumb_up:",
     default=True,
 )
