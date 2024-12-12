@@ -45,7 +45,7 @@ if st.button("Gerar Relatórios"):
   opcoes_unidades = funil_df['Unidade'].unique().tolist()
   opcoes_unidades.insert(0,"Todas Unidades")
 
-  filtro_unidade = st.selectbox("Selecione a Unidade", opcoes_unidades,index=None)
+  filtro_unidade = st.selectbox("Selecione a Unidade", opcoes_unidades)
 
   if filtro_unidade != "Todas Unidades":
     funil_df = funil_df.loc[funil_df['Unidade'] == filtro_unidade]
