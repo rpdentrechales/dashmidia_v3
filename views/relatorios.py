@@ -36,7 +36,7 @@ if st.button("Gerar Relatórios"):
 
   st.title("Funil por Data")
 
-  opcoes_unidades = funil_df['Unidade'].unique()
+  opcoes_unidades = funil_df['Unidade'].unique().tolist()
   opcoes_unidades.insert(0,"Todas Unidades")
 
   filtro_unidade = st.selectbox("Selecione a Unidade", opcoes_unidades,"Todas Unidades")
