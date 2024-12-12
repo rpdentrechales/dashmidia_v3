@@ -26,8 +26,10 @@ else:
 botao_gerar_relatorio = st.button("Gerar Relatórios",key="botao_gerar_relatorio")
 st.write(st.session_state['botao_gerar_relatorio'])
 
-if botao_gerar_relatorio:
+if st.session_state['botao_gerar_relatorio']:
 
+  st.session_state['botao_gerar_relatorio'] = True
+  
   if 'funil_df' not in st.session_state:
 
     funil_df = criar_funil(start_date,end_date)
