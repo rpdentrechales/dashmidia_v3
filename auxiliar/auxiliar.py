@@ -1,5 +1,6 @@
 from pymongo import MongoClient, UpdateOne
 import pandas as pd
+import streamlit as st
 
 def get_dataframe_from_mongodb(collection_name, database_name, query={}):
 
