@@ -2,5 +2,4 @@
 streamlit
 pandas
 datetime
-aiohttp
-nest_asyncio
+pymongo
