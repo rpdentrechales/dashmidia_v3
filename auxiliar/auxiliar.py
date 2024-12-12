@@ -19,7 +19,7 @@ def get_dataframe_from_mongodb(collection_name, database_name, query={}):
     return dataframe
 
 
-
+@st.cache_data
 def criar_funil(start_date,end_date):
   query = {"date": {"$gte": start_date, "$lte": end_date}}
 

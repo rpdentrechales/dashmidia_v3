@@ -26,7 +26,13 @@ else:
 
 if st.button("Gerar Relatórios"):
 
-  funil_df = criar_funil(start_date,end_date)
+  if 'funil_df' not in st.session_state:
+
+    funil_df = criar_funil(start_date,end_date)
+    st.session_state['funil_df'] = funil_df
+
+  else:
+      funil_df = st.session_state['funil_df']
 
   st.title("Funil por Unidade")
 
