@@ -24,7 +24,7 @@ else:
   end_date = start_date
 
 botao_gerar_relatorio = st.button("Gerar Relatórios",key="botao_gerar_relatorio")
-print(st.session_state['botao_gerar_relatorio'])
+st.write(st.session_state['botao_gerar_relatorio'])
 
 if botao_gerar_relatorio:
 
