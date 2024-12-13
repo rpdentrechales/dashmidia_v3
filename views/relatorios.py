@@ -40,50 +40,44 @@ if botao_gerar_relatorio: # Atualiza o dataframe principal
 
 funil_df = st.session_state['funil_df']
 
-if not isinstance(funil_df, pd.DataFrame):
-  
-  st.code("Nenhum dado encontrado para o período selecionado")
+opcoes_unidades = funil_df['Unidade'].unique().tolist()
+opcoes_unidades.insert(0,"Todas Unidades")
 
-else:
+filtro_unidade = st.selectbox("Selecione a Unidade", opcoes_unidades)
 
-  opcoes_unidades = funil_df['Unidade'].unique().tolist()
-  opcoes_unidades.insert(0,"Todas Unidades")
+if filtro_unidade != "Todas Unidades":
+  funil_df = funil_df.loc[funil_df['Unidade'] == filtro_unidade]
 
-  filtro_unidade = st.selectbox("Selecione a Unidade", opcoes_unidades)
+groupby_data = funil_df.groupby(['Data']).agg({'Leads':'sum','Agendamentos':'sum','Atendimentos':'sum','Receita':'sum','Vendas':'sum'}).reset_index()
 
-  if filtro_unidade != "Todas Unidades":
-    funil_df = funil_df.loc[funil_df['Unidade'] == filtro_unidade]
+st.title("Visualizar Evolução por dia")
 
-  groupby_data = funil_df.groupby(['Data']).agg({'Leads':'sum','Agendamentos':'sum','Atendimentos':'sum','Receita':'sum','Vendas':'sum'}).reset_index()
+metrics = ["Leads", "Agendamentos", "Atendimentos", "Receita", "Vendas"]
+selected_metrics = st.pills("Directions", metrics, selection_mode="multi",default=["Leads"])
 
-  st.title("Visualizar Evolução por dia")
+df_melted = groupby_data.melt(
+    id_vars=["Data"],
+    value_vars=selected_metrics,
+    var_name="Metric",
+    value_name="Value"
+)
 
-  metrics = ["Leads", "Agendamentos", "Atendimentos", "Receita", "Vendas"]
-  selected_metrics = st.pills("Directions", metrics, selection_mode="multi",default=["Leads"])
+fig = px.bar(
+  df_melted,
+  x="Data",
+  y="Value",
+  color="Metric"
+)
 
-  df_melted = groupby_data.melt(
-      id_vars=["Data"],
-      value_vars=selected_metrics,
-      var_name="Metric",
-      value_name="Value"
-  )
+st.plotly_chart(fig, use_container_width=True)
 
-  fig = px.bar(
-    df_melted,
-    x="Data",
-    y="Value",
-    color="Metric"
-  )
+st.title("Funil por Unidade")
 
-  st.plotly_chart(fig, use_container_width=True)
+groupby_unidade = funil_df.groupby(['Unidade']).agg({'Leads':'sum','Agendamentos':'sum','Atendimentos':'sum','Receita':'sum','Vendas':'sum'}).reset_index()
 
-  st.title("Funil por Unidade")
+st.dataframe(groupby_unidade,hide_index = True,use_container_width=True)
 
-  groupby_unidade = funil_df.groupby(['Unidade']).agg({'Leads':'sum','Agendamentos':'sum','Atendimentos':'sum','Receita':'sum','Vendas':'sum'}).reset_index()
+st.title("Funil por Data")
 
-  st.dataframe(groupby_unidade,hide_index = True,use_container_width=True)
-
-  st.title("Funil por Data")
-
-  st.dataframe(groupby_data,hide_index = True,use_container_width=True)
+st.dataframe(groupby_data,hide_index = True,use_container_width=True)
 
