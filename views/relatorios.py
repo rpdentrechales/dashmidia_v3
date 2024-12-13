@@ -13,7 +13,7 @@ first_day_of_month = yesterday.replace(day=1)
 
 data_seletor = st.date_input(
     "Selecione o Período do Relatório",
-    (start_of_week, first_day_of_month),
+    (first_day_of_month, yesterday),
     format="DD/MM/YYYY",
 )
 
