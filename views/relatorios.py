@@ -75,9 +75,12 @@ st.title("Funil por Unidade")
 
 groupby_unidade = funil_df.groupby(['Unidade']).agg({'Leads':'sum','Agendamentos':'sum','Atendimentos':'sum','Receita':'sum','Vendas':'sum'}).reset_index()
 
-st.dataframe(groupby_unidade,hide_index = True,use_container_width=True)
+st.dataframe(groupby_unidade,hide_index=True,use_container_width=True,
+    column_config={
+        "Receita": st.column_config.NumberColumn("Receita (R$)",format="R$ {:,.2f}")})
 
 st.title("Funil por Data")
 
-st.dataframe(groupby_data,hide_index = True,use_container_width=True)
-
+st.dataframe(groupby_data,hide_index=True,use_container_width=True,
+    column_config={
+        "Receita": st.column_config.NumberColumn("Receita (R$)",format="R$ {:,.2f}")})
