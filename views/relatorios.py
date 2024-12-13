@@ -5,26 +5,43 @@ from auxiliar.auxiliar import *
 import plotly.express as px
 
 st.set_page_config(page_title="Pró-Corpo - Relatórios", page_icon="💎",layout="wide")
+header_1, spacer,header_2 = st.columns([1,2,1])
 
-st.title("Relatórios de Mídia")
+with header_1:
+  st.title("Relatórios de Mídia")
 
-yesterday = datetime.now() - timedelta(days=1)
-first_day_of_month = yesterday.replace(day=1)
+with header_2:
 
-data_seletor = st.date_input(
-    "Selecione o Período do Relatório",
-    (first_day_of_month, yesterday),
-    format="DD/MM/YYYY",
-)
+  yesterday = datetime.now() - timedelta(days=1)
+  first_day_of_month = yesterday.replace(day=1)
 
+  data_seletor = st.date_input(
+      "Selecione o Período do Relatório",
+      (first_day_of_month, yesterday),
+      format="DD/MM/YYYY",
+  )
+  botao_gerar_relatorio = st.button("Atualizar Relatórios")
+  
 if len(data_seletor) == 2:
+
   start_date = data_seletor[0].strftime('%Y-%m-%d')
   end_date = data_seletor[1].strftime('%Y-%m-%d')
+
 else:
+
   start_date = data_seletor[0].strftime('%Y-%m-%d')
   end_date = start_date
 
-botao_gerar_relatorio = st.button("Gerar Relatórios")
+if 'funil_df' not in st.session_state:
+
+  funil_df = criar_funil(start_date,end_date)
+  st.session_state['funil_df'] = funil_df
+
+else:
+
+  funil_df = st.session_state['funil_df']
+
+
 
 if 'botao_gerar_relatorio' not in st.session_state:
   st.session_state['botao_gerar_relatorio'] = False
@@ -35,13 +52,7 @@ if botao_gerar_relatorio or botao_sessao:
 
   st.session_state['botao_gerar_relatorio'] = True
 
-  if 'funil_df' not in st.session_state:
 
-    funil_df = criar_funil(start_date,end_date)
-    st.session_state['funil_df'] = funil_df
-
-  else:
-      funil_df = st.session_state['funil_df']
 
   st.title("Funil por Unidade")
 
