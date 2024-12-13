@@ -5,7 +5,7 @@ from auxiliar.auxiliar import *
 import plotly.express as px
 
 st.set_page_config(page_title="Pró-Corpo - Relatórios", page_icon="💎",layout="wide")
-header_1, spacer,header_2 = st.columns([1,1,0.5])
+header_1, spacer,header_2 = st.columns([1,0.5,0.5])
 
 with header_1:
   st.title("Relatórios de Mídia")
