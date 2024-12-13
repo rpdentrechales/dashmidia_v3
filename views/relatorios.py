@@ -33,64 +33,51 @@ else:
   end_date = start_date
 
 if 'funil_df' not in st.session_state:
-
-  funil_df = criar_funil(start_date,end_date)
-  st.session_state['funil_df'] = funil_df
-
-else:
-
-  funil_df = st.session_state['funil_df']
+  st.session_state['funil_df'] = criar_funil(start_date,end_date)
 
 
+if botao_gerar_relatorio:
+  st.session_state['funil_df'] = criar_funil(start_date,end_date)
 
-if 'botao_gerar_relatorio' not in st.session_state:
-  st.session_state['botao_gerar_relatorio'] = False
+funil_df = st.session_state['funil_df']
 
-botao_sessao = st.session_state['botao_gerar_relatorio']
+st.title("Funil por Unidade")
 
-if botao_gerar_relatorio or botao_sessao:
+groupby_unidade = funil_df.groupby(['Unidade']).agg({'Leads':'sum','Agendamentos':'sum','Atendimentos':'sum','Receita':'sum','Vendas':'sum'}).reset_index()
 
-  st.session_state['botao_gerar_relatorio'] = True
+st.dataframe(groupby_unidade,hide_index = True,use_container_width=True)
 
+st.title("Funil por Data")
 
+opcoes_unidades = funil_df['Unidade'].unique().tolist()
+opcoes_unidades.insert(0,"Todas Unidades")
 
-  st.title("Funil por Unidade")
+filtro_unidade = st.selectbox("Selecione a Unidade", opcoes_unidades)
 
-  groupby_unidade = funil_df.groupby(['Unidade']).agg({'Leads':'sum','Agendamentos':'sum','Atendimentos':'sum','Receita':'sum','Vendas':'sum'}).reset_index()
+if filtro_unidade != "Todas Unidades":
+  funil_df = funil_df.loc[funil_df['Unidade'] == filtro_unidade]
 
-  st.dataframe(groupby_unidade,hide_index = True,use_container_width=True)
+groupby_data = funil_df.groupby(['Data']).agg({'Leads':'sum','Agendamentos':'sum','Atendimentos':'sum','Receita':'sum','Vendas':'sum'}).reset_index()
 
-  st.title("Funil por Data")
+st.dataframe(groupby_data,hide_index = True,use_container_width=True)
 
-  opcoes_unidades = funil_df['Unidade'].unique().tolist()
-  opcoes_unidades.insert(0,"Todas Unidades")
+st.title("Visualizar Evolução por dia")
 
-  filtro_unidade = st.selectbox("Selecione a Unidade", opcoes_unidades)
+metrics = ["Leads", "Agendamentos", "Atendimentos", "Receita", "Vendas"]
+selected_metrics = st.pills("Directions", metrics, selection_mode="multi",default=["Leads"])
 
-  if filtro_unidade != "Todas Unidades":
-    funil_df = funil_df.loc[funil_df['Unidade'] == filtro_unidade]
+df_melted = groupby_data.melt(
+    id_vars=["Data"],
+    value_vars=selected_metrics,
+    var_name="Metric",
+    value_name="Value"
+)
 
-  groupby_data = funil_df.groupby(['Data']).agg({'Leads':'sum','Agendamentos':'sum','Atendimentos':'sum','Receita':'sum','Vendas':'sum'}).reset_index()
+fig = px.bar(
+  df_melted,
+  x="Data",
+  y="Value",
+  color="Metric"
+)
 
-  st.dataframe(groupby_data,hide_index = True,use_container_width=True)
-
-  st.title("Visualizar Evolução por dia")
-
-  metrics = ["Leads", "Agendamentos", "Atendimentos", "Receita", "Vendas"]
-  selected_metrics = st.pills("Directions", metrics, selection_mode="multi",default=["Leads"])
-
-  df_melted = groupby_data.melt(
-      id_vars=["Data"],
-      value_vars=selected_metrics,
-      var_name="Metric",
-      value_name="Value"
-  )
-
-  fig = px.bar(
-    df_melted,
-    x="Data",
-    y="Value",
-    color="Metric"
-  )
-
-  st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, use_container_width=True)
