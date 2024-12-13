@@ -9,11 +9,11 @@ st.set_page_config(page_title="Pró-Corpo - Relatórios", page_icon="💎",layou
 st.title("Relatórios de Mídia")
 
 yesterday = datetime.now() - timedelta(days=1)
-start_of_week = yesterday - timedelta(days=yesterday.weekday())
+first_day_of_month = yesterday.replace(day=1)
 
 data_seletor = st.date_input(
     "Selecione o Período do Relatório",
-    (start_of_week, yesterday),
+    (start_of_week, first_day_of_month),
     format="DD/MM/YYYY",
 )
 
@@ -28,13 +28,13 @@ botao_gerar_relatorio = st.button("Gerar Relatórios")
 
 if 'botao_gerar_relatorio' not in st.session_state:
   st.session_state['botao_gerar_relatorio'] = False
-  
+
 botao_sessao = st.session_state['botao_gerar_relatorio']
 
 if botao_gerar_relatorio or botao_sessao:
 
   st.session_state['botao_gerar_relatorio'] = True
-  
+
   if 'funil_df' not in st.session_state:
 
     funil_df = criar_funil(start_date,end_date)
@@ -69,16 +69,16 @@ if botao_gerar_relatorio or botao_sessao:
   selected_metrics = st.pills("Directions", metrics, selection_mode="multi",default=["Leads"])
 
   df_melted = groupby_data.melt(
-      id_vars=["Data"], 
-      value_vars=selected_metrics, 
-      var_name="Metric", 
+      id_vars=["Data"],
+      value_vars=selected_metrics,
+      var_name="Metric",
       value_name="Value"
   )
 
   fig = px.bar(
-    df_melted, 
-    x="Data", 
-    y="Value", 
+    df_melted,
+    x="Data",
+    y="Value",
     color="Metric"
   )
 
