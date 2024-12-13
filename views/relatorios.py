@@ -40,7 +40,7 @@ if botao_gerar_relatorio: # Atualiza o dataframe principal
 
 funil_df = st.session_state['funil_df']
 
-if funil_df == None:
+if not isinstance(funil_df, pd.DataFrame):
   
   st.code("Nenhum dado encontrado para o período selecionado")
 
