@@ -27,11 +27,25 @@ def criar_funil(start_date,end_date):
   leads_df = get_dataframe_from_mongodb(collection_name="leads_db", database_name="dash_midia", query=query)
   appointments_df = get_dataframe_from_mongodb(collection_name="appointments_db", database_name="dash_midia", query=query)
   billcharges_df = get_dataframe_from_mongodb(collection_name="billcharges_db", database_name="dash_midia", query=query)
-  
-  st.code(leads_df.columns)
-  st.code(appointments_df.columns)
-  st.code(billcharges_df.columns)
-  
+
+  leads_columns = ['id', 'createdAt', 'customer_id', 'customer_name', 'date', 'email',
+                  'message', 'name', 'source', 'status', 'store', 'telephone',
+                  'utmCampaign', 'utmContent', 'utmMedium', 'utmSearch', 'utmTerm']
+
+  appointments_columns = ['id', 'createdBy_name', 'customer_id', 'customer_name',
+                          'customer_telephone', 'date', 'eh_atendimento', 'employee_name',
+                          'is_assessment', 'procedure_name', 'startDate', 'status_label',
+                          'store_name']
+
+  billcharges_columns = ['id', 'customer_email', 'customer_id', 'customer_name',
+                        'customer_taxvat', 'date', 'due_at', 'installments', 'is_paid',
+                        'paid_at', 'payment_method', 'quote_id', 'quote_items', 'status',
+                        'store_name', 'total_amount']  
+
+  leads_df  = ensure_dataframe(leads_df, leads_columns)
+  appointments_df  = ensure_dataframe(appointments_df, appointments_columns) 
+  billcharges_df  = ensure_dataframe(billcharges_df, billcharges_columns)  
+
   # Trata os Leads
   
   leads_df['date'] = pd.to_datetime(leads_df['date'])
@@ -60,3 +74,8 @@ def criar_funil(start_date,end_date):
   merged_df.fillna(0, inplace=True)
 
   return merged_df
+
+def ensure_dataframe(df, columns):
+    if df is None or df.empty:  # Check if DataFrame is empty or None
+        return pd.DataFrame(columns=columns)
+    return df
