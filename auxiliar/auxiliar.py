@@ -28,9 +28,10 @@ def criar_funil(start_date,end_date):
   appointments_df = get_dataframe_from_mongodb(collection_name="appointments_db", database_name="dash_midia", query=query)
   billcharges_df = get_dataframe_from_mongodb(collection_name="billcharges_db", database_name="dash_midia", query=query)
   
-  st.write(leads_df)
-  st.write(appointments_df)
-  st.write(billcharges_df)
+  st.code(leads_df.columns)
+  st.code(appointments_df.columns)
+  st.code(billcharges_df.columns)
+  
   # Trata os Leads
   
   leads_df['date'] = pd.to_datetime(leads_df['date'])
