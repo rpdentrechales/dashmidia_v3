@@ -5,7 +5,7 @@ from auxiliar.auxiliar import *
 import plotly.express as px
 
 st.set_page_config(page_title="Pró-Corpo - Relatórios", page_icon="💎",layout="wide")
-header_1, spacer,header_2 = st.columns([1,2,1])
+header_1, spacer,header_2 = st.columns([1,1,1])
 
 with header_1:
   st.title("Relatórios de Mídia")
@@ -21,7 +21,7 @@ with header_2:
       format="DD/MM/YYYY",
   )
   botao_gerar_relatorio = st.button("Atualizar Relatórios")
-  
+
 if len(data_seletor) == 2:
 
   start_date = data_seletor[0].strftime('%Y-%m-%d')
